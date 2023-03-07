@@ -1,5 +1,6 @@
 import { ArrowRightOutlined  } from '@ant-design/icons';
 import {  Card as AntCard } from 'antd';
+import { useNavigate } from 'react-router-dom';
 const { Meta } = AntCard;
 
 function Card(props) {
@@ -9,6 +10,8 @@ function Card(props) {
     icon,
     path = ''
   } = props;
+
+  const navigate = useNavigate();
 
   return (
     <AntCard
@@ -22,7 +25,7 @@ function Card(props) {
       //   />
       // }
       actions={[
-        <div>Acessar <ArrowRightOutlined key="visit" /></div>,
+        <div onClick={() => {navigate(path)}}>Acessar <ArrowRightOutlined key="visit" /></div>,
       ]}
     >
       <Meta

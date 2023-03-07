@@ -17,47 +17,47 @@ export default function ModulePage(props) {
       title: 'Portaria',
       description: 'Cadastro e controle de acesso de visitantes, prestadores de serviço e controle de encomendas.',
       icon: <Avatar style={{ backgroundColor: '#a81344' }} icon={<VideoCameraOutlined />} />,
-      path: '/register'
+      path: '/concierge'
     },
     {
       title: 'Usuários',
       description: 'Administração de Usuários e Grupo de Usuários do sistema, gestão de acesso dos módulos. ',
       icon: <Avatar style={{ backgroundColor: '#321bcc' }} icon={<UserAddOutlined />} />,
-      path: '/register'
+      path: '/user'
     },
     {
       title: 'Relatórios',
       description: 'Módulo de relatórios gerenciais e dashboards administrativos do sistema.',
       icon: <Avatar style={{ backgroundColor: '#e7f20f' }} icon={<BarChartOutlined />} />,
-      path: '/register'
+      path: '/report'
     },
     {
       title: 'Agenda',
       description: 'Agenda virtual com eventos, informativos, advertências e controle de reserva das áreas úteis.',
       icon: <Avatar style={{ backgroundColor: '#de6514' }} icon={<CalendarOutlined />} />,
-      path: '/register'
+      path: '/schedule'
     },
     {
       title: 'Financeiro',
       description: 'Resumo financeiro do morador, com emissão de segunda via e consulta de pagamentos anteriores.',
       icon: <Avatar style={{ backgroundColor: '#039122' }} icon={<BarcodeOutlined />} />,
-      path: '/register'
+      path: '/financial'
     }
   ];
 
   return (
     <Row>
       <Col>
-        <Title level={3}>Módulos disponíveis</Title>
+        <Title style={{paddingLeft: 10}} level={3}>Módulos disponíveis</Title>
       </Col>
 
       <Col>
-        <Row>
+        <Row >
           {/* <Space size="middle"> */}
             {
-              modules.map(m => {
+              modules.map((m, i) => {
                 return (
-                  <Col style={{margin: 10}} >
+                  <Col style={{margin: 10}} key={i}>
                     <Card {...m} />
                   </Col>
                 )
