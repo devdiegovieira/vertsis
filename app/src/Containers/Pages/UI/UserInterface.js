@@ -24,7 +24,9 @@ export default function UserInterface(props) {
         style={{
           backgroundColor: '#fff',
           padding: 20,
-          height: "calc(100vh - 120px)"
+          height: "calc(100vh - 130 px)",
+          flexGrow: 1,
+          overflow: 'auto',
         }}
       >
         {children}
@@ -36,7 +38,7 @@ export default function UserInterface(props) {
           padding: 10
         }}
       >
-        <Row xs={24} justify={'center'}>
+        <Row xs={24} justify={'center'} align={'middle'} style={{ height: 20, textAlign: 'center'}}>
           {`Copyright © Adsis Desenvolvimento de Sistemas Ltda. - Todos os direitos reservados ${new Date().getFullYear()}.`}
         </Row>
       </Footer>
