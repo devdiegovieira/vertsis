@@ -23,7 +23,8 @@ export default function UserInterface(props) {
       <Content
         style={{
           backgroundColor: '#fff',
-          padding: 20
+          padding: 20,
+          height: "calc(100vh - 120px)"
         }}
       >
         {children}

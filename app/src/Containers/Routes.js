@@ -6,6 +6,7 @@ import UserInterface from "./Pages/UI/UserInterface";
 import DashboardPage from "./Pages/Dashboard/DashboardPage";
 import Login from "./Pages/Auth/Login";
 import ModulePage from "./Pages/Module/ModulePage";
+import NotExists from "./Pages/UI/NotExists";
 
 function Logout() {
   localStorage.removeItem('user');
@@ -21,6 +22,7 @@ function Routes() {
     { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },
     { path: '/', element:  <PrivateRoute><ModulePage /></PrivateRoute> },
+    { path: '/*', element: <PrivateRoute><NotExists /></PrivateRoute> },
     // { path: '/admin', element: <PrivateRoute><DashboardPage /></PrivateRoute> },
     // { path: '/resetpassword', element: <ResetPassword /> },
     // { path: '/confirmpassword', element: <ConfirmPassword /> },
@@ -30,7 +32,7 @@ function Routes() {
     // { path: '/admin/unity/*', element: <PrivateRoute><UnityPage /></PrivateRoute> },
     // { path: '/admin/access/*', element: <PrivateRoute><AccessPage /></PrivateRoute> },
     // { path: '/admin/*', element: <PrivateRoute><InConstruction /></PrivateRoute> },
-    // { path: '*', element: <InConstruction /> },
+
   ])
 }
 
