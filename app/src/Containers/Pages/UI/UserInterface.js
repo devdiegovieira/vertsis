@@ -9,8 +9,8 @@ export default function UserInterface(props) {
   const { children } = props;
   return (
     <Layout>
-      <Header style={{ backgroundColor: '#fff', padding: 10, paddingRight: 20, paddingLeft: 20, height: 70 }}>
-        <Row xs={24} justify={'space-between'}>
+      <Header style={{ backgroundColor: '#fff', padding: 10, paddingRight: 20, paddingLeft: 20, height: 65 }}>
+        <Row xs={24} justiy={'space-between'}>
           <img
             src={logo}
             height={50}
@@ -22,11 +22,9 @@ export default function UserInterface(props) {
       
       <Content
         style={{
-          backgroundColor: '#fff',
-          paddingLeft: 20,
-          paddingRight: 20,
-          paddingLeft: 20,
-          height: "calc(100vh - 130 px)",
+          // backgroundColor: '#fff',
+          padding: 10,
+          height: "calc(100vh - 110px",
           flexGrow: 1,
           overflow: 'auto',
         }}
@@ -36,7 +34,7 @@ export default function UserInterface(props) {
       
       <Footer
         style={{
-          backgroundColor: '#fff',
+          // backgroundColor: '#fff',
           padding: 10
         }}
       >

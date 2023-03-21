@@ -1,7 +1,7 @@
-import { AppstoreAddOutlined, ArrowLeftOutlined, HomeOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, Menu, Row } from "antd";
+import { Col, Menu, Row } from "antd";
 import React, { useEffect, useState } from "react";
-import { useAsyncValue, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import TopNavigation from "./TopNavigation";
 
 
 export default function TabPage(props) {
@@ -15,44 +15,22 @@ export default function TabPage(props) {
   }, [window.location.pathname])
 
   return (
-    <Row align={"middle"} gutter={[16, 16]}>
-      <Col flex="none">
-        <Button
-          type="text"
-          icon={<ArrowLeftOutlined />}
-          size='large'
-        >
-          Voltar
-        </Button>
-      </Col>
-      <Col flex="auto" >
-        <Breadcrumb
-          items={[
-            {
-              href: '/',
-              title: <HomeOutlined />,
-            },
-            ...window.location.pathname.split('/').filter(f => f).map(m => {
-              let item = items.find(f => f.key == m)
-
-              return {
-                href: item ? `/${window.location.pathname.split('/')[1]}/${m}` : '',
-                title: <>
-                  {item ? item.icon : ''}
-                  <span>{item ? item.label : m}</span>
-                </>
-              }
-            })
-          ]}
-        />
-      </Col>
+    <Row gutter={[10, 10]}>
       <Col xs={24}>
+        <TopNavigation subMenu={items} />
+      </Col>
+      <Col flex={'none'}>
         <Menu
           style={{ width: 256 }}
           onClick={menu => { navigate(`/${window.location.pathname.split('/')[1]}/${menu.key}`) }}
           selectedKeys={selected}
           items={items}
         />
+      </Col>
+      <Col flex={'auto'}>
+        {
+          items.find(f => f.key == selected) && items.find(f => f.key == selected).page
+        }
       </Col>
 
     </Row>

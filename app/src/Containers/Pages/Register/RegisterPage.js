@@ -1,6 +1,8 @@
 import { AppstoreAddOutlined, CarOutlined, EnvironmentOutlined, GroupOutlined, MobileOutlined, UsergroupAddOutlined, WarningOutlined } from "@ant-design/icons";
 import React from "react";
 import TabPage from "../UI/TabPage";
+import BlockPage from "./Block/BlockPage";
+import UnityPage from "./Unity/UnityPage";
 
 
 export default function RegisterPage(props) {
@@ -9,11 +11,13 @@ export default function RegisterPage(props) {
       key: 'block',
       icon: <GroupOutlined />,
       label: 'Blocos',
+      page: <BlockPage />
     },
     {
       key: 'unity',
       icon: <AppstoreAddOutlined />,
       label: 'Unidades',
+      page: <UnityPage />
     },
     {
       key: 'people',
@@ -43,6 +47,6 @@ export default function RegisterPage(props) {
   ]
 
   return (
-    <TabPage items={items}/>
+    <TabPage items={items} />
   )
 }

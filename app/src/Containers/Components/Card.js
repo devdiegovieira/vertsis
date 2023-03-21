@@ -26,7 +26,7 @@ function Card(props) {
       // }
       actions={[
         <div onClick={() => {navigate(path)}}>Acessar <ArrowRightOutlined key="visit" /></div>,
-      ]}
+      ]}  
     >
       <Meta
         avatar={icon}
