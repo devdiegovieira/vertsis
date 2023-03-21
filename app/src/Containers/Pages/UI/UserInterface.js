@@ -23,7 +23,9 @@ export default function UserInterface(props) {
       <Content
         style={{
           backgroundColor: '#fff',
-          padding: 20,
+          paddingLeft: 20,
+          paddingRight: 20,
+          paddingLeft: 20,
           height: "calc(100vh - 130 px)",
           flexGrow: 1,
           overflow: 'auto',
