@@ -19,15 +19,15 @@ export default function TabPage(props) {
       <Col xs={24}>
         <TopNavigation subMenu={items} />
       </Col>
-      <Col flex={'none'}>
+      <Col xl={3} lg={5} md={6} sm={8} xs={24}>
         <Menu
-          style={{ width: 256 }}
+          // style={{ width: 256 }}
           onClick={menu => { navigate(`/${window.location.pathname.split('/')[1]}/${menu.key}`) }}
           selectedKeys={selected}
           items={items}
         />
       </Col>
-      <Col flex={'auto'}>
+      <Col xl={21} lg={19} md={18} sm={16} xs={24}>
         {
           items.find(f => f.key == selected) && items.find(f => f.key == selected).page
         }

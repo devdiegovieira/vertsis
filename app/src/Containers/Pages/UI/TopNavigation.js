@@ -1,11 +1,11 @@
 import { ArrowLeftOutlined, DatabaseOutlined, HomeOutlined } from "@ant-design/icons";
 import { Breadcrumb, Button, Col, Row } from "antd";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function TopNavigation(props) {
   const { menu = [], subMenu = [] } = props;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <Row align={"middle"} gutter={16}>
@@ -14,7 +14,11 @@ export default function TopNavigation(props) {
           type="text"
           icon={<ArrowLeftOutlined />}
           size='large'
-          onClick={() => { navigate('/') }}
+          onClick={() => {
+            // const path = window.location.pathname.split('/');
+            // path.pop();
+            history.go(-1)
+          }}
         >
           Voltar
         </Button>

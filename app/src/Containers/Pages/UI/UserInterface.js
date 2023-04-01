@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Layout, Row, Space } from 'antd';
+import { Avatar, Col, Layout, Row, Space } from 'antd';
 import logo from './../../Img/vertsislogo.png'
 import { UserOutlined } from '@ant-design/icons';
 
@@ -10,16 +10,19 @@ export default function UserInterface(props) {
   return (
     <Layout>
       <Header style={{ backgroundColor: '#fff', padding: 10, paddingRight: 20, paddingLeft: 20, height: 65 }}>
-        <Row xs={24} justiy={'space-between'}>
-          <img
-            src={logo}
-            height={50}
-          />
-
-          <Avatar size={'large'} icon={<UserOutlined />} />
+        <Row justify={'space-between'} align={'middle'}>
+          {/* <Col> */}
+            <img
+              src={logo}
+              height={50}
+            />
+          {/* </Col>
+          <Col> */}
+              <Avatar size={'large'} icon={<UserOutlined />} />
+          {/* </Col> */}
         </Row>
       </Header>
-      
+
       <Content
         style={{
           // backgroundColor: '#fff',
@@ -31,14 +34,14 @@ export default function UserInterface(props) {
       >
         {children}
       </Content>
-      
+
       <Footer
         style={{
           // backgroundColor: '#fff',
           padding: 10
         }}
       >
-        <Row xs={24} justify={'center'} align={'middle'} style={{ height: 20, textAlign: 'center'}}>
+        <Row xs={24} justify={'center'} align={'middle'} style={{ height: 20, textAlign: 'center' }}>
           {`Copyright © Adsis Desenvolvimento de Sistemas Ltda. - Todos os direitos reservados ${new Date().getFullYear()}.`}
         </Row>
       </Footer>
