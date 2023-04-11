@@ -1,9 +1,10 @@
-const { updatePic } = require("../data/systemUser");
-const { uploadToStorage } = require("./storage")
-
-const uploadProfileImage = async (pgConn, userPic, userId) => {
-  let link = await uploadToStorage(pgConn, [userPic]);
-  await updatePic(pgConn, link[0], userId);
+const login = async (mongoConn, mail, password) => {
+  const userColl = mongoConn.collection('user');
+  return (await userColl.findOne({
+    mail, 
+    password, 
+    active: true}
+  )) != undefined;
 }
 
-module.exports = { uploadProfileImage }
+module.exports = { login }
