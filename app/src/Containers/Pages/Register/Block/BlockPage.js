@@ -2,6 +2,7 @@ import { Switch } from "antd";
 import React, { useState } from "react";
 import CrudPage from "../../UI/ListPage";
 import FormPage from "../../UI/FormPage";
+import BlockDeail from "./BlockDetail";
 
 export default function BlockPage() {
   const [data, setData] = useState([])
@@ -61,7 +62,7 @@ export default function BlockPage() {
       loading={loading}
       columns={columns}
       onDelete={onDelete}
-      detail={<FormPage />}
+      detail={<BlockDeail />}
     />
 
 
