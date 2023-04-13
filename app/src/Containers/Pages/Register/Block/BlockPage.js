@@ -1,31 +1,54 @@
-import { Switch } from "antd";
+import { App, Switch, notification } from "antd";
 import React, { useState } from "react";
 import CrudPage from "../../UI/ListPage";
-import FormPage from "../../UI/FormPage";
 import BlockDeail from "./BlockDetail";
+import axios from "./../../../../api";
+import { useUrlParams } from "../../../../utils/hooks";
 
 export default function BlockPage() {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { notification } = App.useApp();
 
-  const getData = (filter) => {
+
+
+  const getData = () => {
     setLoading(true);
 
-
-    console.log('chamada da api', filter)
-    setTimeout(() => {
-      setData([
-        { code: 'B-A', name: 'Bloco A', isActive: true, createdAt: new Date('2022/01/05').toLocaleString() },
-        { code: 'B-B', name: 'Bloco B', isActive: true, createdAt: new Date('2022/01/05').toLocaleString() },
-        { code: 'B-C', name: 'Bloco C', isActive: true, createdAt: new Date('2022/01/05').toLocaleString() },
-      ])
-      setLoading(false)
-    }, 1000);
-
+    axios.get('block', {
+      params: useUrlParams(window.location.search)
+    })
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        notification.error({
+          message: `Erro`,
+          description: err,
+          placement: 'bottomLeft',
+        });
+      });
   }
 
   const onDelete = (item) => {
-    console.log('chamada da api de delete', item)
+    axios.delete(`block/${item._id}`)
+      .then(() => {
+        notification.success({
+          message: `Sucesso`,
+          description: 'Registro deletado com sucesso',
+          placement: 'bottomLeft',
+        });
+        getData();
+      })
+      .catch((err) => {
+        notification.error({
+          message: `Erro`,
+          description: err,
+          placement: 'bottomLeft',
+        });
+      });
   }
 
   const columns = [
@@ -40,10 +63,13 @@ export default function BlockPage() {
     {
       title: 'Dt. Criação',
       dataIndex: 'createdAt',
+      render: (value) => {
+        return new Date(value).toLocaleString()
+      },
     },
     {
       title: 'Ativo',
-      dataIndex: 'isActive',
+      dataIndex: 'active',
       render: (value) => {
         return (<Switch checked={value} />)
       },
@@ -54,7 +80,7 @@ export default function BlockPage() {
 
     <CrudPage
       resource={'block'}
-      resourceId={'code'}
+      resourceId={'_id'}
       title={'Cadastro de Blocos'}
       getData={getData}
       data={data}

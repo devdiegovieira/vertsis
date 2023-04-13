@@ -1,16 +1,36 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
+import { Button, Checkbox, Col, Form, Input, Row, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { mailValid } from '../../../utils/formValidations';
-import logo from './../../Img/vertsislogo.png'
+import logo from './../../Img/vertsislogo.png';
+import axios from './../../../api';
+import SHA256 from 'crypto-js/sha256';
+import { App } from 'antd';
+
 
 const Login = () => {
   const isValidMail = mailValid;
   const navigate = useNavigate();
 
+  const { notification} = App.useApp();
+
+
   const onFinish = (values) => {
-    localStorage.setItem('user', JSON.stringify({auth: 1234}));
-    navigate('/')   
+    values.password = SHA256(values.password).toString();
+
+    axios.post('auth/login', values)
+      .then(user => {
+        localStorage.setItem('user', JSON.stringify(user))
+        navigate('/')   
+      })
+      .catch((err) => {
+        notification.open({
+          message: `Erro`,
+          description: err,
+          type: 'error',
+          placement: 'topRight',
+        });
+      })
   };
   return (
     <Row justify={'center'} align={'middle'} style={{height:window.innerHeight - 100}} >
@@ -22,16 +42,16 @@ const Login = () => {
 
           <Col xs={24}>
             <Form
-
               name="normal_login"
               className="login-form"
               initialValues={{
                 remember: true,
               }}
               onFinish={onFinish}
+              
             >
               <Form.Item
-                name="username"
+                name="mail"
                 rules={[{
                   validator: (_, mail) => {
                     if (isValidMail(mail)) {
@@ -64,9 +84,9 @@ const Login = () => {
                     <Checkbox>Lembre-me</Checkbox>
                   </Form.Item>
 
-                  <a className="login-form-forgot" href="">
+                  {/* <a className="login-form-forgot" href="">
                     Estqueceu a senha?
-                  </a>
+                  </a> */}
 
                 </Row>
               </Form.Item>
@@ -75,7 +95,7 @@ const Login = () => {
                 <Button type="primary" htmlType="submit" className="login-form-button" style={{ marginRight: 10 }}>
                   Entrar
                 </Button>
-                ou <a href="" style={{ marginLeft: 10 }}>Registrar Agora!</a>
+                {/* ou <a href="" style={{ marginLeft: 10 }}>Registrar Agora!</a> */}
               </Form.Item>
             </Form>
           </Col>

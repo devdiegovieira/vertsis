@@ -15,9 +15,10 @@ export default function TopNavigation(props) {
           icon={<ArrowLeftOutlined />}
           size='large'
           onClick={() => {
-            // const path = window.location.pathname.split('/');
+            const path = window.location.pathname.split('/');
             // path.pop();
-            history.go(-1)
+            path.length <= 3 ? location.href = '/' : history.go(-1)
+            
           }}
         >
           Voltar

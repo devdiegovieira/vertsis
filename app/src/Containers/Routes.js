@@ -1,13 +1,12 @@
 import React from "react";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 import { BrowserRouter, Navigate, useRoutes } from "react-router-dom";
 import UserInterface from "./Pages/UI/UserInterface";
-import DashboardPage from "./Pages/Dashboard/DashboardPage";
 import Login from "./Pages/Auth/Login";
 import ModulePage from "./Pages/Module/ModulePage";
 import NotExists from "./Pages/UI/NotExists";
 import RegisterPage from "./Pages/Register/RegisterPage";
+import { App } from 'antd';
+
 
 function Logout() {
   localStorage.removeItem('user');
@@ -32,24 +31,10 @@ function Routes() {
 export default function AppRoutes() {
 
   return (
-    <>
+    <App>
       <BrowserRouter>
         <Routes />
       </BrowserRouter>
-
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='colored'
-      />
-
-    </>
+    </App>
   );
 };

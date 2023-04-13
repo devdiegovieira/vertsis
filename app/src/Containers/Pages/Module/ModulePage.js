@@ -1,7 +1,8 @@
 import { BarChartOutlined, BarcodeOutlined, CalendarOutlined, DatabaseOutlined, UserAddOutlined, VideoCameraOutlined } from "@ant-design/icons";
 import { Avatar, Col, Row, Space, Typography } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../../Components/Card";
+import axios from "./../../../api"
 
 const { Title } = Typography;
 
@@ -44,6 +45,10 @@ export default function ModulePage(props) {
       path: '/financial'
     }
   ];
+
+  useEffect(() => {
+    axios.get('auth/verify')
+  }, [])
 
   return (
     <Row>

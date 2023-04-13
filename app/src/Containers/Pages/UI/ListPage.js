@@ -1,10 +1,9 @@
-import { Col, Row, Card, Typography, Button, Input, Tooltip, Popconfirm } from "antd";
+import { Col, Row, Card, Typography, Button, Input, Tooltip, Popconfirm, Checkbox } from "antd";
 import React, { useEffect, useState } from "react";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import Table from "../../Components/Table";
 import { useDebounce, useUrlParams } from "../../../utils/hooks";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import PropTypes, { object } from 'prop-types';
 import SwitchPage from "./SwitchPage";
 
 const { Title } = Typography;
@@ -61,7 +60,14 @@ function List(props) {
 
       <Col xs={24}>
         <Card bodyStyle={{ padding: 10 }}>
-          <Row gutter={[10, 10]} justify={'end'}>
+          <Row gutter={[10, 10]} justify={'end'} align={'middle'}>
+            <Checkbox 
+              checked={filter.showInative == 'true'}
+              onChange={() => {
+                setFilter({ ...filter, showInative: filter.showInative == 'true' ? 'false' : 'true' })
+              }}            >
+              Mostrar Inativos
+            </Checkbox>
             <Input
               placeholder="O que você está procurando hoje?"
               autoFocus

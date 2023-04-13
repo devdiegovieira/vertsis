@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import FormPage from "../../UI/FormPage";
-import { Form, Input, Switch } from "antd";
+import { Form, Input, Switch, App } from "antd";
+import axios from "./../../../../api";
+import { useUrlParams } from "../../../../utils/hooks";
+
 
 export default function BlockDeail() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState({active: true});
+  const { notification } = App.useApp();
+
 
   const getData = (filter) => {
+    const id = window.location.pathname.split('/').slice(-1)[0];
 
-    console.log('chamada da api', filter)
-
-    setData({
-      code: 'B-A',
-      name: 'Bloco A',
-      isActive: false,
-      createdAt: new Date('2022/01/05')
-    })
-
+    if (id != 'new') {
+      axios.get(`block/${id}`)
+        .then((data) => {
+          setData(data);
+        })
+        .catch((err) => {
+          notification.error({
+            message: `Erro`,
+            description: err,
+            placement: 'bottomLeft',
+          });
+        });
+    }
   }
 
   useEffect(() => {
@@ -24,7 +34,18 @@ export default function BlockDeail() {
 
 
   const submit = (formData) => {
-    console.log(formData, data)
+    const { _id } = data;
+    axios.post(`block`, { ...formData, _id })
+      .then(() => {
+        history.go(-1)
+      })
+      .catch((err) => {
+        notification.error({
+          message: `Erro`,
+          description: err,
+          placement: 'bottomLeft',
+        });
+      });
   }
 
   return (
@@ -35,7 +56,7 @@ export default function BlockDeail() {
         label="Código"
         rules={[{ required: true, message: 'Por favor preencha um código único' }]}
       >
-        <Input placeholder="Preencha o código" autoFocus/>
+        <Input placeholder="Preencha o código" autoFocus />
       </Form.Item>
 
       <Form.Item
@@ -47,10 +68,10 @@ export default function BlockDeail() {
         <Input placeholder="Preencha o nome" />
       </Form.Item>
 
-      <Form.Item 
-        name="isActive"
-        id="isActive"
-        label="Ativo" 
+      <Form.Item
+        name="active"
+        id="active"
+        label="Ativo"
         valuePropName="checked"
       >
         <Switch />
