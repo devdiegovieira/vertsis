@@ -5,6 +5,7 @@ import Login from "./Pages/Auth/Login";
 import ModulePage from "./Pages/Module/ModulePage";
 import NotExists from "./Pages/UI/NotExists";
 import RegisterPage from "./Pages/Register/RegisterPage";
+import ConciegePage from "./Pages/Concierge/ConciergePage";
 import { App } from 'antd';
 
 
@@ -21,9 +22,10 @@ function Routes() {
   return useRoutes([
     { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },
-    { path: '/', element:  <PrivateRoute><ModulePage /></PrivateRoute> },
+    { path: '/', element: <PrivateRoute><ModulePage /></PrivateRoute> },
     { path: '/*', element: <PrivateRoute><NotExists /></PrivateRoute> },
     { path: '/register/*', element: <PrivateRoute><RegisterPage /></PrivateRoute> },
+    { path: '/concierge', element: <PrivateRoute><ConciegePage /></PrivateRoute> },
 
   ])
 }
