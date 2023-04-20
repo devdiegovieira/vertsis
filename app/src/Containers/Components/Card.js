@@ -1,5 +1,5 @@
-import { ArrowRightOutlined  } from '@ant-design/icons';
-import {  Card as AntCard } from 'antd';
+import { ArrowRightOutlined } from '@ant-design/icons';
+import { Card as AntCard } from 'antd';
 import { useNavigate } from 'react-router-dom';
 const { Meta } = AntCard;
 
@@ -7,7 +7,7 @@ function Card(props) {
   const {
     title = '',
     description = '',
-    icon,
+    avatar,
     path = ''
   } = props;
 
@@ -25,14 +25,14 @@ function Card(props) {
       //   />
       // }
       actions={[
-        <div onClick={() => {navigate(path)}}>Acessar <ArrowRightOutlined key="visit" /></div>,
-      ]}  
+        <div onClick={() => { navigate(path) }}>Acessar <ArrowRightOutlined key="visit" /></div>,
+      ]}
     >
       <Meta
-        avatar={icon}
+        avatar={avatar}
         title={title}
         description={description}
-        style={{minHeight: 120}}
+        style={{ minHeight: 120 }}
       />
     </AntCard>
 

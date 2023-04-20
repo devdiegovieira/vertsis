@@ -1,4 +1,4 @@
-import { AppstoreAddOutlined, CarOutlined, EnvironmentOutlined, GroupOutlined, MobileOutlined, UsergroupAddOutlined, WarningOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, CarOutlined, GroupOutlined, LockOutlined, MobileOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 import React from "react";
 import TabPage from "../UI/TabPage";
 import BlockPage from "./Block/BlockPage";
@@ -20,6 +20,11 @@ export default function RegisterPage(props) {
       page: <UnityPage />
     },
     {
+      key: 'peopleType',
+      icon: <LockOutlined />,
+      label: 'Tipos de Acesso',
+    },
+    {
       key: 'people',
       icon: <UsergroupAddOutlined />,
       label: 'Pessoas',
@@ -29,16 +34,16 @@ export default function RegisterPage(props) {
       icon: <CarOutlined />,
       label: 'Veículos',
     },
-    {
-      key: 'common',
-      icon: <EnvironmentOutlined />,
-      label: 'Áreas Comuns',
-    },
-    {
-      key: 'unitygroup',
-      icon: <WarningOutlined />,
-      label: 'Grupos de Acesso',
-    },
+    // {
+    //   key: 'common',
+    //   icon: <EnvironmentOutlined />,
+    //   label: 'Áreas Comuns',
+    // },
+    // {
+    //   key: 'unitygroup',
+    //   icon: <WarningOutlined />,
+    //   label: 'Grupos de Acesso',
+    // },
     {
       key: 'gate',
       icon: <MobileOutlined />,

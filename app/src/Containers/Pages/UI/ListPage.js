@@ -55,13 +55,13 @@ function List(props) {
   return (
     <Row gutter={[15, 15]}>
       <Col>
-        <Title level={3} style={{ margin: 0, paddingLeft: 5 }}>{title}</Title>
+        <Title level={4} style={{ margin: 0, paddingLeft: 5 }}>{title}</Title>
       </Col>
 
       <Col xs={24}>
         <Card bodyStyle={{ padding: 10 }}>
           <Row gutter={[10, 10]} justify={'end'} align={'middle'}>
-            <Checkbox 
+            <Checkbox
               checked={filter.showInative == 'true'}
               onChange={() => {
                 setFilter({ ...filter, showInative: filter.showInative == 'true' ? 'false' : 'true' })
@@ -181,7 +181,7 @@ function CrudPage(props) {
   return (
     <SwitchPage
       resource={resource}
-      list={<List {...props}/>}
+      list={<List {...props} />}
       detail={detail}
     />
   )

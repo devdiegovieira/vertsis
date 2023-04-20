@@ -1,16 +1,26 @@
-import { BarChartOutlined, BarcodeOutlined, CalendarOutlined, DatabaseOutlined, UserAddOutlined, VideoCameraOutlined } from "@ant-design/icons";
-import { Avatar, Col, Row, Space, Typography } from "antd";
-import React, { useEffect } from "react";
-import Card from "../../Components/Card";
-import axios from "./../../../api"
+import { Col, Divider, Row, Tabs, Typography } from "antd";
+import React from "react";
 import TopNavigation from "../UI/TopNavigation";
 import VideoCapture from "./VideoCapture";
 import ConciergeVisit from "./ConciergeVisit";
+import AccessList from "./AccessList";
+import Clock from "./Clock";
 
 const { Title } = Typography;
 
 export default function ConciergePage(props) {
-
+  const items = [
+    {
+      key: '1',
+      label: `Acessos`,
+      children: <ConciergeVisit />,
+    },
+    {
+      key: '2',
+      label: `Encomendas`,
+      children: `Content of Tab Pane 2`,
+    },
+  ];
   return (
     <>
       <Row gutter={[15, 15]}>
@@ -18,19 +28,19 @@ export default function ConciergePage(props) {
           <TopNavigation />
         </Col>
 
-        <Col flex={'none'}>
-
-          <VideoCapture />
-
-          asdasdasd
-
-        </Col >
-
-
         <Col flex={'auto'}>
-          <ConciergeVisit />
+          <Tabs defaultActiveKey="1" items={items} type="card" tabBarStyle={{ margin: 0, border: 'none' }} />
         </Col>
 
+        <Col flex={'none'} style={{ paddingTop: 5 }}>
+          <Clock />
+          <VideoCapture />
+
+          <Title level={4} style={{ margin: 0, marginTop: 10 }}>Ultimos acessos</Title>
+          <Divider style={{ margin: 0 }} />
+          <AccessList />
+
+        </Col >
       </Row >
     </>
   )

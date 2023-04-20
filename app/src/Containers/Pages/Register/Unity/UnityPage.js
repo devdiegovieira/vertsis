@@ -1,37 +1,52 @@
-import { Switch } from "antd";
+import { App, Switch } from "antd";
 import React, { useState } from "react";
 import CrudPage from "../../UI/ListPage";
+import UnityDetail from "./UnityDetail";
+import axios from "../../../../api";
+import { useUrlParams } from "../../../../utils/hooks";
 
 export default function UnityPage() {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { notification } = App.useApp();
 
-  const getData = (filter) => {
+  const getData = () => {
     setLoading(true);
 
-
-    console.log('chamada da api', filter)
-    setTimeout(() => {
-      setData([
-        { code: '10A', name: '10', isActive: true, createdAt: new Date('2022/01/05').toLocaleString() },
-        { code: '11A', name: '11', isActive: true, createdAt: new Date('2022/01/05').toLocaleString() },
-        { code: '12A', name: '12', isActive: true, createdAt: new Date('2022/01/05').toLocaleString() },
-      ])
-      setLoading(false)
-    }, 1000);
-
+    axios.get('unity', {
+      params: useUrlParams(window.location.search)
+    })
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        notification.error({
+          message: `Erro`,
+          description: err,
+          placement: 'bottomLeft',
+        });
+      });
   }
 
   const onDelete = (item) => {
-    console.log('chamada da api de delete', item)
-  }
-
-  const onEdit = (item) => {
-    console.log('chamada da api de edição', item)
-  }
-
-  const onNew = () => {
-    console.log('chamada da api de insert')
+    axios.delete(`unity/${item._id}`)
+      .then(() => {
+        notification.success({
+          message: `Sucesso`,
+          description: 'Registro deletado com sucesso',
+          placement: 'bottomLeft',
+        });
+        getData();
+      })
+      .catch((err) => {
+        notification.error({
+          message: `Erro`,
+          description: err,
+          placement: 'bottomLeft',
+        });
+      });
   }
 
   const columns = [
@@ -46,36 +61,34 @@ export default function UnityPage() {
     {
       title: 'Dt. Criação',
       dataIndex: 'createdAt',
+      render: (value) => {
+        return new Date(value).toLocaleString()
+      },
     },
     {
       title: 'Ativo',
-      dataIndex: 'isActive',
+      dataIndex: 'active',
       render: (value) => {
-        return (<Switch checked={value}/>)
+        return (<Switch checked={value} />)
       },
     },
   ]
 
   return (
+
     <CrudPage
-    
+      resource={'unity'}
+      resourceId={'_id'}
       title={'Cadastro de Unidades'}
       getData={getData}
       data={data}
       pageSize={20}
       loading={loading}
       columns={columns}
-      actions={{
-        new: {
-          onClick: onNew
-        },
-        edit: {
-          onClick: onEdit
-        },
-        delete: {
-          onClick: onDelete
-        }
-      }}
+      onDelete={onDelete}
+      detail={<UnityDetail />}
     />
+
+
   )
 }

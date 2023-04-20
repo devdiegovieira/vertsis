@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import FormPage from "../../UI/FormPage";
 import { Form, Input, Switch, App } from "antd";
-import axios from "./../../../../api";
+import axios from "../../../../api";
 
 
-export default function BlockDeail() {
+export default function UnityDetail() {
   const [data, setData] = useState({ active: true });
   const { notification } = App.useApp();
 
@@ -16,7 +16,7 @@ export default function BlockDeail() {
     const id = window.location.pathname.split('/').slice(-1)[0];
 
     if (id != 'new') {
-      axios.get(`block/${id}`)
+      axios.get(`unity/${id}`)
         .then((data) => {
           setData(data);
         })
@@ -37,7 +37,7 @@ export default function BlockDeail() {
 
   const submit = (formData) => {
     const { _id } = data;
-    axios.post(`block`, { ...formData, _id })
+    axios.post(`unity`, { ...formData, _id })
       .then(() => {
         history.go(-1)
       })
@@ -51,7 +51,7 @@ export default function BlockDeail() {
   }
 
   return (
-    <FormPage title={'Edição de Bloco'} data={data} onSubmit={submit} form={form}>
+    <FormPage title={'Edição de Unidade'} data={data} onSubmit={submit} form={form}>
       <Form.Item
         name="code"
         id="code"

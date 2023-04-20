@@ -11,9 +11,7 @@ import { useEffect } from 'react';
 
 const { Title } = Typography;
 export default function FormPage(props) {
-  const { title, children, onSubmit = () => { }, data = {}, clear = false } = props;
-
-  const [form] = Form.useForm();
+  const { title, children, onSubmit = () => { }, data = {}, clear = false, cardHeight, form = {} } = props;
 
 
   useEffect(() => {
@@ -21,12 +19,12 @@ export default function FormPage(props) {
   }, [data])
 
   return (
-    <Row justify={'center'}>
+    <Row justify={'center'} >
 
       <Col xs={24}  >
-        <Card>
-          <Title level={3} style={{ margin: 0, paddingLeft: 5 }}>{title}</Title>
-          <Divider />
+        <Card style={cardHeight ? { height: cardHeight } : {}}>
+          <Title level={4} style={{ margin: 0, paddingLeft: 5 }}>{title}</Title>
+          <Divider style={{ margin: 20 }} />
 
           <Row justify={'center'}>
             <Form
@@ -35,7 +33,7 @@ export default function FormPage(props) {
               onFinish={onSubmit}
 
               labelCol={{
-                span: 8,
+                span: 7,
               }}
               style={{
                 minWidth: 500
@@ -44,12 +42,13 @@ export default function FormPage(props) {
               {children}
               <Form.Item
                 wrapperCol={{
-                  offset: 8,
+                  offset: 7,
                 }}
               >
                 <Button
                   type="primary"
                   htmlType="submit"
+
                 >
                   Salvar
                 </Button>

@@ -1,6 +1,7 @@
 import { ArrowLeftOutlined, DatabaseOutlined, HomeOutlined } from "@ant-design/icons";
 import { Breadcrumb, Button, Col, Row } from "antd";
 import React from "react";
+import modules from "../../../utils/models";
 // import { useNavigate } from "react-router-dom";
 
 export default function TopNavigation(props) {
@@ -18,7 +19,7 @@ export default function TopNavigation(props) {
             const path = window.location.pathname.split('/');
             // path.pop();
             path.length <= 3 ? location.href = '/' : history.go(-1)
-            
+
           }}
         >
           Voltar
@@ -33,12 +34,12 @@ export default function TopNavigation(props) {
             },
             ...window.location.pathname.split('/').filter(f => f).map(m => {
               let item = subMenu.find(f => f.key == m)
-
+              let mod = modules.find(f => f.path.replace('/', '') == m)
               return {
                 href: window.location.pathname.substring(0, window.location.pathname.indexOf(m) + m.length),
                 title: <>
-                  {item ? item.icon : m == 'register' ? <DatabaseOutlined /> : ''}
-                  <span>{item ? item.label : m == 'register' ? 'Cadastros' : m}</span>
+                  {item ? item.icon : mod ? mod.icon : ''}
+                  <span>{item ? item.label : mod ? mod.title : ''}</span>
                 </>
               }
             })
