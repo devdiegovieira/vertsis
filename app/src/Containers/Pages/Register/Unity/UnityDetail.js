@@ -1,15 +1,34 @@
 import React, { useEffect, useState } from "react";
 import FormPage from "../../UI/FormPage";
-import { Form, Input, Switch, App } from "antd";
+import { Form, Input, Switch, App, Select } from "antd";
 import axios from "../../../../api";
 
 
 export default function UnityDetail() {
   const [data, setData] = useState({ active: true });
+  const [blocks, setBlocks] = useState([]);
   const { notification } = App.useApp();
 
   const [form] = Form.useForm();
 
+  const getBlocks = (filter) => {
+
+    axios.get('block', {
+      params: {
+        search: filter
+      }
+    })
+      .then((data) => {
+        setBlocks(data.map(m => { return { value: m._id, label: m.name } }));
+      })
+      .catch((err) => {
+        notification.error({
+          message: `Erro`,
+          description: err,
+          placement: 'bottomLeft',
+        });
+      });
+  }
 
 
   const getData = (filter) => {
@@ -27,7 +46,9 @@ export default function UnityDetail() {
             placement: 'bottomLeft',
           });
         });
-    }
+    };
+
+    getBlocks();
   }
 
   useEffect(() => {
@@ -50,6 +71,14 @@ export default function UnityDetail() {
       });
   }
 
+
+
+  const searchBlocks = (e) => {
+    getBlocks(e);
+  }
+
+
+
   return (
     <FormPage title={'Edição de Unidade'} data={data} onSubmit={submit} form={form}>
       <Form.Item
@@ -68,6 +97,27 @@ export default function UnityDetail() {
         rules={[{ required: true, message: 'Por favor preencha o nome' }]}
       >
         <Input placeholder="Preencha o nome" />
+      </Form.Item>
+
+      <Form.Item
+        name="blockId"
+        id="blockId"
+        label="Bloco"
+        rules={[{ required: true, message: 'Bloco obrigatório' }]}
+      >
+        <Select
+          allowClear
+          showSearch
+          placeholder="Selecione o bloco"
+          filterOption={false}
+          options={blocks}
+          onSearch={searchBlocks}
+          onChange={(e) => {
+            if (!e) getBlocks()
+          }}
+        />
+
+
       </Form.Item>
 
       <Form.Item

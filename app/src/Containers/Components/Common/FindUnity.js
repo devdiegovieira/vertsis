@@ -1,56 +1,54 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Input } from 'antd';
-import { useState } from 'react';
+import { App, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import axios from "../../../api";
 
-const getRandomInt = (max, min = 0) => Math.floor(Math.random() * (max - min + 1)) + min;
-const searchResult = (query) =>
-  new Array(getRandomInt(5))
-    .join('.')
-    .split('.')
-    .map((_, idx) => {
-      const category = `${query}${idx}`;
+export default function FindUnity(props) {
+  const [units, setUnits] = useState([]);
+  const { notification } = App.useApp();
+
+  const { onUnityChange = () => { }, ...others } = props;
+
+  const find = (filter = '') => {
+    axios.get(`unity/`, {
+      params: {
+        search: filter
+      }
+    })
+      .then((data) => {
+        setUnits(data);
+      })
+      .catch((err) => {
+        notification.error({
+          message: `Erro`,
+          description: err,
+          placement: 'bottomLeft',
+        });
+      });
+  }
+
+  useEffect(() => {
+    find()
+  }, [])
+
+
+  return <Select
+    filterOption={false}
+    allowClear
+    showSearch
+    autoFocus
+    options={units.map(m => {
       return {
-        value: category,
-        label: (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <span>
-              Found {query} on{' '}
-              <a
-                href={`https://s.taobao.com/search?q=${query}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {category}
-              </a>
-            </span>
-            <span>{getRandomInt(200, 100)} results</span>
-          </div>
-        ),
-      };
-    });
-
-export default function FindUnity() {
-  const [options, setOptions] = useState([]);
-  const handleSearch = (value) => {
-    setOptions(value ? searchResult(value) : []);
-  };
-
-  const onSelect = (value) => {
-    console.log('onSelect', value);
-  };
-
-  return (
-    <AutoComplete
-      // dropdownMatchSelectWidth={252}
-      options={options}
-      // onSelect={onSelect}
-      onSearch={handleSearch}
-    />
-
-  );
+        value: m._id,
+        label: m.name
+      }
+    })}
+    onSearch={(e) => {
+      find(e)
+    }}
+    {...others}
+    onChange={(e) => {
+      onUnityChange(units.find(f => f._id == e))
+      others.onChange(e)
+    }}
+  />;
 };

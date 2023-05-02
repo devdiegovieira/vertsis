@@ -1,4 +1,5 @@
 const { ObjectId } = require("mongodb");
+const { escapeSpecialChar } = require("../utils/mongo");
 
 const getBlocks = async (mongoConn, filters = {}) => {
   const blockColl = mongoConn.collection('block');
@@ -13,16 +14,18 @@ const getBlocks = async (mongoConn, filters = {}) => {
   let filterQuery = {};
 
   if (search) filterQuery.$or = [
-    { code: search },
-    { name: search },
+    { code: new RegExp(escapeSpecialChar(search), "i") },
+    { name: new RegExp(escapeSpecialChar(search), "i") },
   ];
 
   if (showInative == 'false') filterQuery.active = true;
 
-  return await blockColl.find(filterQuery)
+  blocks = await blockColl.find(filterQuery)
     .skip(Number(offset))
     .limit(Number(limit))
     .toArray();
+
+  return blocks;
 }
 
 const getBlock = async (mongoConn, id = '') => {
@@ -47,7 +50,7 @@ const upsertBlock = async (mongoConn, fields = {}, user) => {
     if (!fields.code) throw 'Código é obrigatorio';
     if (!fields.name) throw 'Nome é obrigatorio';
     if (fields.active == undefined) throw 'Status é obrigatório';
-    if (!(await isUnique(mongoConn, fields.code))) 
+    if (!(await isUnique(mongoConn, fields.code)))
       throw `O código ${fields.code} já existe por favor cadastre um código diferente`;
 
     await blockColl.insertOne({
@@ -57,13 +60,11 @@ const upsertBlock = async (mongoConn, fields = {}, user) => {
     });
   }
   else {
-    if (!(await isUnique(mongoConn, fields.code, new ObjectId(_id)))) 
+    if (!(await isUnique(mongoConn, fields.code, new ObjectId(_id))))
       throw `O código ${fields.code} já existe por favor cadastre um código diferente`;
 
     await blockColl.updateOne({ _id: new ObjectId(_id) }, { $set: fields });
   }
-
-  return
 }
 
 const deleteBlock = async (mongoConn, id) => {

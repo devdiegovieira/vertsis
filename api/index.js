@@ -5,6 +5,7 @@ const { errorMid } = require('./src/lib/error');
 const routes = require('./src/routes');
 const fileUpload = require('express-fileupload');
 const { openConnection } = require('./src/connection/mongo');
+const Device = require('./src/lib/device');
 
 const mongoConn = openConnection();
 
@@ -21,6 +22,15 @@ app.use(async (req, res, next) => {
 
 routes(app);
 app.use(errorMid);
+
+var deviceIp = '192.168.3.20';
+async function init() {
+  let device = new Device(deviceIp);
+  await device.login();
+  await device.setPush();
+}
+
+// init()
 
 //-------------------------------
 

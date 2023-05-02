@@ -1,19 +1,21 @@
 import { App, Switch } from "antd";
 import React, { useState } from "react";
 import CrudPage from "../../UI/ListPage";
-import UnityDetail from "./UnityDetail";
+import ConciergeDeail from "./ConciergeDetail";
 import axios from "../../../../api";
 import { useUrlParams } from "../../../../utils/hooks";
 
-export default function UnityPage() {
+export default function ConciergePage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notification } = App.useApp();
 
+
+
   const getData = () => {
     setLoading(true);
 
-    axios.get('unity', {
+    axios.get('concierge', {
       params: useUrlParams(window.location.search)
     })
       .then((data) => {
@@ -31,7 +33,7 @@ export default function UnityPage() {
   }
 
   const onDelete = (item) => {
-    axios.delete(`unity/${item._id}`)
+    axios.delete(`concierge/${item._id}`)
       .then(() => {
         notification.success({
           message: `Sucesso`,
@@ -51,16 +53,8 @@ export default function UnityPage() {
 
   const columns = [
     {
-      title: 'Código',
-      dataIndex: 'code',
-    },
-    {
       title: 'Nome',
       dataIndex: 'name',
-    },
-    {
-      title: 'Bloco',
-      dataIndex: 'blockName',
     },
     {
       title: 'Dt. Criação',
@@ -81,16 +75,16 @@ export default function UnityPage() {
   return (
 
     <CrudPage
-      resource={'unity'}
+      resource={'concierge'}
       resourceId={'_id'}
-      title={'Cadastro de Unidades'}
+      title={'Cadastro de Portaria'}
       getData={getData}
       data={data}
       pageSize={20}
       loading={loading}
       columns={columns}
       onDelete={onDelete}
-      detail={<UnityDetail />}
+      detail={<ConciergeDeail />}
     />
 
 

@@ -8,6 +8,8 @@ import { maskCpf, maskDate, maskPhone } from "../../../utils/masks";
 
 export default function ConciergeVisit() {
   const [data, setData] = useState({ active: true });
+  const [accessType, setAccessType] = useState([]);
+  const [unity, setUnity] = useState([]);
   const { notification } = App.useApp();
 
   const [form] = Form.useForm();
@@ -16,19 +18,51 @@ export default function ConciergeVisit() {
   const getData = (filter) => {
     const id = window.location.pathname.split('/').slice(-1)[0];
 
-    // if (id != 'new') {
-    //   axios.get(`block/${id}`)
-    //     .then((data) => {
-    //       setData(data);
-    //     })
-    //     .catch((err) => {
-    //       notification.error({
-    //         message: `Erro`,
-    //         description: err,
-    //         placement: 'bottomLeft',
-    //       });
-    //     });
-    // }
+    if (id != 'new') {
+      axios.get(`access-type`, {
+        params: {
+          concierge: true
+        }
+      })
+        .then((data) => {
+          setAccessType(data.map(m => {
+            return {
+              value: m._id,
+              label: m.name
+            }
+          }));
+        })
+        .catch((err) => {
+          notification.error({
+            message: `Erro`,
+            description: err,
+            placement: 'bottomLeft',
+          });
+        });
+    }
+  }
+
+  const searchUnity = () => {
+    axios.get(`access-type`, {
+      params: {
+        concierge: true
+      }
+    })
+      .then((data) => {
+        setAccessType(data.map(m => {
+          return {
+            value: m._id,
+            label: m.name
+          }
+        }));
+      })
+      .catch((err) => {
+        notification.error({
+          message: `Erro`,
+          description: err,
+          placement: 'bottomLeft',
+        });
+      });
   }
 
   useEffect(() => {
@@ -69,9 +103,6 @@ export default function ConciergeVisit() {
               label: '1 - Diego Vieira / Stefanie Almeida'
             }
           ]}
-          onSelect={(e) => {
-            // setUnity(e)
-          }}
           onSearch={(e) => {
             // if (!e) setUnity()
           }}
@@ -179,11 +210,7 @@ export default function ConciergeVisit() {
         <Select
           allowClear
           placeholder='Seleciona o tipo de Acesso'
-          options={[
-            { value: 1, label: 'Visitante' },
-            { value: 2, label: 'Entregador' },
-            { value: 3, label: 'Prestador de Serviço' },
-          ]}
+          options={accessType}
         />
       </Form.Item>
 

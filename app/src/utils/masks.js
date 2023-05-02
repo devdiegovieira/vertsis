@@ -1,5 +1,5 @@
 export const maskCpf = (v) => {
-  v = v.replace(/\D/g, "")                    //Remove tudo o que não é dígito
+  v = v.substring(0, 14).replace(/\D/g, "")                    //Remove tudo o que não é dígito
   v = v.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
   v = v.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
   //de novo (para o segundo bloco de números)

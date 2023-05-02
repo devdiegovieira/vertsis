@@ -1,11 +1,11 @@
-import { App, Switch } from "antd";
+import { App, Avatar, Switch } from "antd";
 import React, { useState } from "react";
 import CrudPage from "../../UI/ListPage";
-import UnityDetail from "./UnityDetail";
+import PeopleDetail from "./PeopleDetail";
 import axios from "../../../../api";
 import { useUrlParams } from "../../../../utils/hooks";
 
-export default function UnityPage() {
+export default function PeoplePage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notification } = App.useApp();
@@ -13,7 +13,7 @@ export default function UnityPage() {
   const getData = () => {
     setLoading(true);
 
-    axios.get('unity', {
+    axios.get('people', {
       params: useUrlParams(window.location.search)
     })
       .then((data) => {
@@ -31,7 +31,7 @@ export default function UnityPage() {
   }
 
   const onDelete = (item) => {
-    axios.delete(`unity/${item._id}`)
+    axios.delete(`people/${item._id}`)
       .then(() => {
         notification.success({
           message: `Sucesso`,
@@ -51,23 +51,34 @@ export default function UnityPage() {
 
   const columns = [
     {
-      title: 'Código',
-      dataIndex: 'code',
+      title: '',
+      dataIndex: 'peoplePic',
+      render: (value) => {
+        return <Avatar src="" />
+      },
+    },
+    {
+      title: 'CPF',
+      dataIndex: 'cpf',
     },
     {
       title: 'Nome',
       dataIndex: 'name',
     },
     {
-      title: 'Bloco',
-      dataIndex: 'blockName',
+      title: 'Telefone',
+      dataIndex: 'phone',
     },
     {
-      title: 'Dt. Criação',
-      dataIndex: 'createdAt',
+      title: 'Dt. Nascimento',
+      dataIndex: 'birthDate',
       render: (value) => {
         return new Date(value).toLocaleString()
       },
+    },
+    {
+      title: 'Tipo de Acesso',
+      dataIndex: 'peopleType',
     },
     {
       title: 'Ativo',
@@ -81,16 +92,16 @@ export default function UnityPage() {
   return (
 
     <CrudPage
-      resource={'unity'}
+      resource={'people'}
       resourceId={'_id'}
-      title={'Cadastro de Unidades'}
+      title={'Cadastro de Pessoas'}
       getData={getData}
       data={data}
       pageSize={20}
       loading={loading}
       columns={columns}
       onDelete={onDelete}
-      detail={<UnityDetail />}
+      detail={<PeopleDetail />}
     />
 
 
