@@ -5,6 +5,12 @@ export default function VideoCapture() {
   const photoRef = useRef(null);
 
   const getVideo = () => {
+    navigator.mediaDevices.enumerateDevices()
+      .then((a,b,c) => {
+        console.log(a,b,c)
+      })
+
+
     navigator.mediaDevices.getUserMedia({
       video: {
         aspectRatio: 1920 / 1080,
