@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { escapeSpecialChar } = require("../utils/mongo");
+const { escapeSpecialChar } = require("../utils/replaces");
 
 const getUnits = async (mongoConn, filters = {}) => {
   const unityColl = mongoConn.collection('unity');

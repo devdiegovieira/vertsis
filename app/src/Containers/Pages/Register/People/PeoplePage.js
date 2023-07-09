@@ -1,4 +1,4 @@
-import { App, Avatar, Switch } from "antd";
+import { App, Avatar, Switch, Tag } from "antd";
 import React, { useState } from "react";
 import CrudPage from "../../UI/ListPage";
 import PeopleDetail from "./PeopleDetail";
@@ -53,17 +53,22 @@ export default function PeoplePage() {
     {
       title: '',
       dataIndex: 'peoplePic',
+      width: 60,
       render: (value) => {
-        return <Avatar src="" />
+        return <Avatar shape="square" size={"large"} src="" />
       },
+    },
+    {
+      title: 'Nome',
+      dataIndex: 'name',
     },
     {
       title: 'CPF',
       dataIndex: 'cpf',
     },
     {
-      title: 'Nome',
-      dataIndex: 'name',
+      title: 'RG',
+      dataIndex: 'rg',
     },
     {
       title: 'Telefone',
@@ -73,16 +78,22 @@ export default function PeoplePage() {
       title: 'Dt. Nascimento',
       dataIndex: 'birthDate',
       render: (value) => {
-        return new Date(value).toLocaleString()
+        return new Date(value).toLocaleDateString('pt-BR')
       },
     },
     {
-      title: 'Tipo de Acesso',
-      dataIndex: 'peopleType',
+      title: 'Unidade',
+      dataIndex: 'units',
+      render: (values = []) => {
+        return values.map(m => {
+          return <Tag>{`${m.unity.name} - ${m.accessType.name}`}</Tag>
+        })
+      },
     },
     {
-      title: 'Ativo',
+      title: 'Ativo', 
       dataIndex: 'active',
+      width: 100,
       render: (value) => {
         return (<Switch checked={value} />)
       },

@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import FormPage from "../../UI/FormPage";
-import { Form, Input, App, DatePicker, Image, Row, Col, Alert, Button } from "antd";
+import { Form, Input, App, DatePicker, Image, Row, Col, Alert, Button, Switch, Space, Typography, Divider } from "antd";
 import axios from "./../../../../api";
 import { maskCpf, maskDate, maskPhone } from "../../../../utils/masks";
 import FindUnity from "../../../Components/Common/FindUnity";
 import FindPeopleType from "../../../Components/Common/FindPeopleType";
 import { cpfValid } from "../../../../utils/formValidations";
 import UploadImage from "../../../Components/UploadImage";
+import dayjs from "dayjs";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 
 export default function PeopleDetail() {
   const [data, setData] = useState({ active: true });
   const [unity, setUnity] = useState({});
   const { notification } = App.useApp();
+  const { Title } = Typography;
+
 
 
   const isCpfValid = cpfValid;
@@ -28,7 +32,11 @@ export default function PeopleDetail() {
           concierge: true
         }
       })
-        .then(setData)
+        .then((data) => {
+          data.expDate = dayjs(data.expDate);
+          data.birthDate = dayjs(data.birthDate);
+          setData(data)
+        })
         .catch((err) => {
           notification.error({
             message: `Erro`,
@@ -70,21 +78,11 @@ export default function PeopleDetail() {
   return (
     <FormPage title={'Cadastro de Pessoa'} data={data} onSubmit={submit} cardHeight={'76vh'} form={form}>
       <Form.Item
-        name="unityId"
-        id="unityId"
-        label="Unidade / Morador"
-        rules={[{ required: true, message: 'Unidade obrigatória' }]}
-      >
-        <FindUnity
-          onUnityChange={setUnity}
-        />
-      </Form.Item>
-
-      <Form.Item
         name="cpf"
         id="cpf"
         label="CPF"
         rules={[{
+          required: true,
           validator: validatorCpf,
         }]}
       >
@@ -94,6 +92,31 @@ export default function PeopleDetail() {
           allowClear
           onChange={(e) => {
             form.setFieldValue('cpf', maskCpf(e.target.value));
+          }}
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="rg"
+        id="rg"
+        label="RG"
+      >
+        <Input
+          placeholder="Preencha o RG"
+          allowClear
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="expDate"
+        id="expDate"
+        label="Data de Expedição"
+      >
+        <DatePicker
+          allowClear
+          format={'DD/MM/YYYY'}
+          onKeyDown={(e) => {
+            e.target.value = maskDate(e.target.defaultValue)
           }}
         />
       </Form.Item>
@@ -140,22 +163,93 @@ export default function PeopleDetail() {
         <Input placeholder="Preencha o telefone" allowClear />
       </Form.Item>
 
-      <Form.Item
-        name="peopleTypeId"
-        id="peopleTypeId"
-        label="Tipo de Acesso"
-        rules={[{ required: true, message: 'Tipo de acesso obrigatório' }]}
+      <Divider />
+      <Form.List
+        name="units"
+        rules={[
+          {
+            validator: async (_, units) => {
+              if (!units || units.length < 1) {
+                return Promise.reject(new Error('Necessário inserir pelo menos uma unidade / tipo de acesso'));
+              }
+            },
+          },
+        ]}
       >
-        {/* <FindPeopleType /> */}
-        <FindPeopleType />
-      </Form.Item>
+        {(fields, { add, remove }, { errors }) => (
+          <>
+            {fields.map(({ key, name, ...restField }) => (
+              <Space
+                key={key}
+                style={{
+                  display: 'flex',
+                  marginLeft: 145
+                }}
+                align="baseline"
+              >
+                <Form.Item
+                  name={[name, 'unityId']}
+                  id="unityId"
+                  rules={[{ required: true, message: 'Unidade obrigatória' }]}
+                  style={{minWidth: 160}}
+                  {...restField}
+                >
+                  <FindUnity
+                    autoFocus
+                    placeholder={'Unidade'}
+                    onUnityChange={setUnity}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  id="accessTypeId"
+                  name={[name, 'accessTypeId']}
+                  // label="Tipo de Acesso"
+                  rules={[{ required: true, message: 'Tipo de acesso obrigatório' }]}
+                  style={{minWidth: 160}}
+                  {...restField}
+                >
+                  {/* <FindPeopleType /> */}
+                  <FindPeopleType
+                    placeholder={'Tipo de Acesso'}
+                  />
+                </Form.Item>
+
+                <MinusCircleOutlined onClick={() => remove(name)} />
+              </Space>
+            ))}
+            <Form.Item
+              wrapperCol={{
+                offset: 7,
+              }}
+            >
+              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                Adicionar Unidade / Tipo de Acesso
+              </Button>
+              <Form.ErrorList errors={errors} />
+            </Form.Item>
+
+          </>
+        )}
+      </Form.List>
+      <Divider />
+
 
       <Form.Item
         name="peoplePics"
         id="peoplePics"
-        label="Imagem"
+        label="Imagens"
       >
         <UploadImage />
+      </Form.Item>
+
+      <Form.Item
+        name="active"
+        id="active"
+        label="Ativo"
+        valuePropName="checked"
+      >
+        <Switch />
       </Form.Item>
 
     </FormPage>

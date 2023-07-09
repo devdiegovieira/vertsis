@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { escapeSpecialChar } = require("../utils/mongo");
+const { escapeSpecialChar } = require("../utils/replaces");
 
 const getConcierges = async (mongoConn, filters = {}) => {
   const conciergeColl = mongoConn.collection('concierge');

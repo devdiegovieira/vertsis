@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { escapeSpecialChar } = require("../utils/mongo");
+const { escapeSpecialChar } = require("../utils/replaces");
 
 const getAccessTypes = async (mongoConn, filters = {}) => {
   const accessTypeColl = mongoConn.collection('accessType');

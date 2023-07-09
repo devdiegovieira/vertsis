@@ -35,7 +35,6 @@ export default function FindUnity(props) {
     filterOption={false}
     allowClear
     showSearch
-    autoFocus
     options={units.map(m => {
       return {
         value: m._id,

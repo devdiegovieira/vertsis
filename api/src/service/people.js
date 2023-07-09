@@ -1,10 +1,11 @@
 const { ObjectId } = require("mongodb");
-const { escapeSpecialChar } = require("../utils/mongo");
+const { escapeSpecialChar } = require("../utils/replaces");
+const { maskCpf, maskPhone } = require("../lib/masks");
 
 const getPeoples = async (mongoConn, filters = {}) => {
   const peopleColl = mongoConn.collection('people');
   const unityColl = mongoConn.collection('unity');
-  const peopleTypeColl = mongoConn.collection('peopleType');
+  const accessTypeColl = mongoConn.collection('accessType');
 
   const {
     offset = 0,
@@ -17,9 +18,15 @@ const getPeoples = async (mongoConn, filters = {}) => {
 
   if (search) filterQuery.$or = [
     { name: new RegExp(".*" + escapeSpecialChar(search) + ".*", "i") },
-    { cpf: new RegExp(".*" + escapeSpecialChar(search) + ".*", "i") },
+    { cpf: new RegExp(".*" + maskCpf(search) + ".*", "i") },
+    { rg: new RegExp(".*" + escapeSpecialChar(search) + ".*", "i") },
     { birth: new RegExp(".*" + escapeSpecialChar(search) + ".*", "i") },
-    { phone: new RegExp(".*" + escapeSpecialChar(search) + ".*", "i") },
+    { phone: new RegExp(".*" + 
+      maskPhone(
+        search.replace('%28', '')
+          .replace('%29', '')
+          .replace(/\D/g, ""))
+          .replace(' ', '.*') + ".*", "i") },
   ];
 
   if (showInative == 'false') filterQuery.active = true;
@@ -29,15 +36,26 @@ const getPeoples = async (mongoConn, filters = {}) => {
     .limit(Number(limit))
     .toArray();
 
+  const unityIds = new Set();
+  const accessTypeIds = new Set();
+
+  peoples.forEach(people => {
+    people.units.forEach(unity => {
+      unityIds.add(unity.unityId);
+      accessTypeIds.add(unity.accessTypeId);
+    });
+    // unityIds.()
+  });
+
   const unitsByPeople = await unityColl.find({
     _id: {
-      $in: peoples.map(m => m.unityId)
+      $in: Array.from(unityIds).map(m => new ObjectId(m))
     }
   }).toArray();
 
-  const peopleType = await peopleTypeColl.find({
+  const accessTypesByPeople = await accessTypeColl.find({
     _id: {
-      $in: peoples.map(m => m.peopleType)
+      $in: Array.from(accessTypeIds).map(m => new ObjectId(m))
     }
   }).toArray();
 
@@ -45,8 +63,12 @@ const getPeoples = async (mongoConn, filters = {}) => {
   return peoples.map(m => {
     return {
       ...m,
-      units: unitsByPeople.filter(f => f._id.equals(m.unityId)),
-      peopleType: peopleType.find(f => f._id.equals(m.peopleType))
+      units: m.units.map(unity => {
+        return {
+          unity: unitsByPeople.find(f => f._id.equals(new ObjectId(unity.unityId)) ),
+          accessType: accessTypesByPeople.find(f => f._id.equals(new ObjectId(unity.accessTypeId)) )
+        }
+      })
     }
   })
 }
@@ -73,8 +95,8 @@ const upsertPeople = async (mongoConn, fields = {}, user) => {
     fields.unityId = new ObjectId(fields.unityId);
   }
 
-  if (fields.peopleType) {
-    fields.peopleType = new ObjectId(fields.peopleType);
+  if (fields.accessTypeId) {
+    fields.accessTypeId = new ObjectId(fields.accessTypeId);
   }
 
   if (!_id) {

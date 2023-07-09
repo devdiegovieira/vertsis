@@ -22,7 +22,7 @@ export default function FormPage(props) {
     <Row justify={'center'} >
 
       <Col xs={24}  >
-        <Card style={cardHeight ? { height: cardHeight } : {}}>
+        <Card style={cardHeight ? { minHeight: cardHeight } : {}}>
           <Title level={4} style={{ margin: 0, paddingLeft: 5 }}>{title}</Title>
           <Divider style={{ margin: 20 }} />
 

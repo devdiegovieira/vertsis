@@ -1,0 +1,12 @@
+{
+  "name": "name",
+  "description": "description",
+  "authors": "author",
+  "version": "1.0.0",
+  "main": "pathToMain",
+  "scripts": {
+    "front": "sudo ssh -i ./vertsis-ec2.pem admin@3.228.154.134",
+    "back": "sudo ssh -i ./vertsis-ec2.pem admin@3.228.35.217"
+  },
+  "dependencies": {}
+}

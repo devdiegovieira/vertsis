@@ -201,8 +201,8 @@ export default function ConciergeVisit() {
       </Form.Item>
 
       <Form.Item
-        name="peopleTypeId"
-        id="peopleTypeId"
+        name="accessTypeId"
+        id="accessTypeId"
         label="Tipo de Acesso"
         rules={[{ required: true, message: 'Tipo de acesso obrigatório' }]}
       >

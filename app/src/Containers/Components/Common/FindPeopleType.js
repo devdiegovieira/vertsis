@@ -36,7 +36,6 @@ export default function FindPeopleType(props) {
     filterOption={false}
     allowClear
     showSearch
-    autoFocus
     options={accessTypes.map(m => {
       return {
         value: m._id,

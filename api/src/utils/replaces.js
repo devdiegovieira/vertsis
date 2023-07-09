@@ -1,3 +1,7 @@
+const removeSpecialChar = (str) => {
+  return str.replace(/[^a-zA-Z0-9 ]/g, '');
+}
+
 function escapeSpecialChar(string = '') {
   return string.toLowerCase()
     .replace(/a|á|à|ã|â/g, '[a,á,à,ã,â]')
@@ -8,4 +12,4 @@ function escapeSpecialChar(string = '') {
     .replace(/c|ç/g, '[c,ç]')
 }
 
-module.exports = { escapeSpecialChar }
+module.exports = { removeSpecialChar, escapeSpecialChar }
