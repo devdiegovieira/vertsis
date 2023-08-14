@@ -10,7 +10,6 @@ export default function VideoCapture() {
         console.log(a,b,c)
       })
 
-
     navigator.mediaDevices.getUserMedia({
       video: {
         aspectRatio: 1920 / 1080,
@@ -35,6 +34,7 @@ export default function VideoCapture() {
   return (
     <div>
       <video ref={videoRef} />
+      <></>
     </div>
   )
 }
