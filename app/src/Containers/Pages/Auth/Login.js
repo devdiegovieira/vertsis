@@ -7,13 +7,11 @@ import axios from './../../../api';
 import SHA256 from 'crypto-js/sha256';
 import { App } from 'antd';
 
-
 const Login = () => {
   const isValidMail = mailValid;
   const navigate = useNavigate();
 
   const { notification} = App.useApp();
-
 
   const onFinish = (values) => {
     values.password = SHA256(values.password).toString();
