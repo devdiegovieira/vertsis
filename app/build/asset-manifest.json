@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/static/js/main.701a360e.js",
+    "main.js": "/static/js/main.d0d21c9d.js",
     "static/media/vertsislogo.png": "/static/media/vertsislogo.30d97a39ebf69d0f4348.png",
     "index.html": "/index.html",
-    "main.701a360e.js.map": "/static/js/main.701a360e.js.map"
+    "main.d0d21c9d.js.map": "/static/js/main.d0d21c9d.js.map"
   },
   "entrypoints": [
-    "static/js/main.701a360e.js"
+    "static/js/main.d0d21c9d.js"
   ]
 }
